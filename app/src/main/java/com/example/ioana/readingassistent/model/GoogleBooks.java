@@ -14,7 +14,9 @@ import retrofit2.http.Query;
 public interface GoogleBooks {
 
     @GET("volumes")
-    Call<BookList> getBookList(@Query("q") String keyWord);
+    Call<BookList> getBookList(@Query("q") String keyWord,
+                               @Query("startIndex") String bookIndex,
+                               @Query("maxResults") String maxResults);
 
     class Service {
         private static GoogleBooks sInstace;

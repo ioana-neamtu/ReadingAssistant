@@ -7,9 +7,17 @@
     tools:context="com.example.ioana.readingassistent.MainActivity"
     android:orientation="vertical">
 
-    <LinearLayout
+    <ImageView
+        android:id="@+id/books_image"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:src="@drawable/books"
+        android:layout_alignParentBottom="true"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/books_image"
         android:orientation="vertical"
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
@@ -28,10 +36,5 @@
 
     </LinearLayout>
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:src="@drawable/books"
-        android:layout_alignParentBottom="true"/>
 
 </RelativeLayout>

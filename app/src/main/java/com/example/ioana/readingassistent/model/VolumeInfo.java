@@ -38,7 +38,7 @@ private Dimensions dimensions;
 private String printType;
 @SerializedName("averageRating")
 @Expose
-private Integer averageRating;
+private Double averageRating;
 @SerializedName("ratingsCount")
 @Expose
 private Integer ratingsCount;
@@ -147,11 +147,11 @@ public void setPrintType(String printType) {
 this.printType = printType;
 }
 
-public Integer getAverageRating() {
+public Double getAverageRating() {
 return averageRating;
 }
 
-public void setAverageRating(Integer averageRating) {
+public void setAverageRating(Double averageRating) {
 this.averageRating = averageRating;
 }
 

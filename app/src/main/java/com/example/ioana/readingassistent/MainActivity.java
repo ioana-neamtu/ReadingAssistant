@@ -28,6 +28,8 @@ import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
     private Adapter mAdapter;
+    private int bookIndex = 0;
+    private int pageSize = 10;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,13 +64,14 @@ public class MainActivity extends AppCompatActivity {
                 /*GoogleBooks.Service.Get().getUserRepositories(preferences.getString(Contract.Preferences.AUTH_HASH, null),
                         Contract.RepositoryActivity.AFFILIATION);
                         */
-                GoogleBooks.Service.Get().getBookList(keyWord);
+                GoogleBooks.Service.Get().getBookList(keyWord, String.valueOf(bookIndex),
+                        String.valueOf(pageSize));
         booksCall.enqueue(new Callback<BookList>() {
             @Override
             public void onResponse(Call<BookList> call, Response<BookList> response) {
                 if(response.isSuccessful()) {
                     List<BookModel> books = response.body().getItems();
-                     mAdapter.setData(books);
+                     mAdapter.setData(books.subList(bookIndex, bookIndex + pageSize));
                      mAdapter.notifyDataSetChanged();
                 }
                 else {
@@ -80,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<BookList> call, Throwable t) {
                 t.printStackTrace();
-                Toast.makeText(MainActivity.this, "No Internet connection", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "On failure error", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -102,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-            ((ViewHolder) holder).bind(mData);
+            ((ViewHolder) holder).bind(mData.get(position));
         }
 
 
@@ -123,17 +126,19 @@ public class MainActivity extends AppCompatActivity {
                     mBooks = (LinearLayout) itemView.findViewById(R.id.books);
             }
 
-            void bind(List<BookModel> books) {
+            void bind(BookModel book) {
                 //  The views are cached, just set the data
 //                mTitle.setText(book.getVolumeInfo().getTitle());
                 mBooks.removeAllViews();
-                if (books != null) {
-                    for (BookModel book : books) {
+                if (book != null) {
+//                    Log.i("MainActivity", books.size() + "");
+//                    for (BookModel book : books) {
                         TextView booksView = new TextView(itemView.getContext());
                         booksView.setText(book.getVolumeInfo().getTitle());
                         booksView.setTextColor(ContextCompat.getColor(itemView.getContext(), android.R.color.black));
+                    booksView.setLayoutParams(new RecyclerView.LayoutParams(RecyclerView.LayoutParams.WRAP_CONTENT, RecyclerView.LayoutParams.WRAP_CONTENT));
                         mBooks.addView(booksView);
-                    }
+//                    }
                 }
 //
             }
