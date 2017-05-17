@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.SearchView;
 import android.widget.TextView;
@@ -30,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
     private Adapter mAdapter;
     private int bookIndex = 0;
     private int pageSize = 10;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setAdapter(mAdapter);
 
         SearchView schView = (SearchView) findViewById(R.id.sch_view);
-       schView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+        schView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 Toast.makeText(MainActivity.this, "You are searching stuff", Toast.LENGTH_SHORT).show();
@@ -122,17 +124,14 @@ public class MainActivity extends AppCompatActivity {
                 super(itemView);
 
                 //  Cache all the views we will need when binding the model
-//                mTitle = (TextView) itemView.findViewById(R.id.book_title);
                     mBooks = (LinearLayout) itemView.findViewById(R.id.books);
+
             }
 
             void bind(BookModel book) {
-                //  The views are cached, just set the data
-//                mTitle.setText(book.getVolumeInfo().getTitle());
-                mBooks.removeAllViews();
+
+               mBooks.removeAllViews();
                 if (book != null) {
-//                    Log.i("MainActivity", books.size() + "");
-//                    for (BookModel book : books) {
                         TextView booksView = new TextView(itemView.getContext());
                         booksView.setText(book.getVolumeInfo().getTitle());
                         booksView.setTextColor(ContextCompat.getColor(itemView.getContext(), android.R.color.black));
