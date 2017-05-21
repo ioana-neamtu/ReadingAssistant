@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.ioana.readingassistent.ProgressFormular"
+    android:orientation="vertical">
+
+
+    <RadioGroup
+        android:id="@+id/radio_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_fab">
+
+        <RadioButton
+            android:id="@+id/new_book"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_fab"
+            android:text="@string/new_book"
+            android:checked="true"/>
+        <RadioButton
+            android:id="@+id/done_reading"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/done_reading"
+            android:layout_marginLeft="@dimen/margin_fab"/>
+
+        <RadioButton
+            android:id="@+id/currently_reading"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/currently_reading"
+            android:layout_marginLeft="@dimen/margin_fab"/>
+
+    </RadioGroup>
+    <EditText
+        android:id="@+id/page_number"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/page_num"
+        android:lines="1"
+        android:layout_marginLeft="@dimen/margin_fab"
+        android:layout_marginRight="@dimen/margin_fab"/>
+
+
+</LinearLayout>

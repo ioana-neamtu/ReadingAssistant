@@ -1,6 +1,7 @@
 package com.example.ioana.readingassistent;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -31,22 +32,29 @@ public class MainActivity extends AppCompatActivity {
     private Adapter mAdapter;
     private int bookIndex = 0;
     private int pageSize = 10;
+    private int pastVisibleItems, visibileItemCount, totalItemCount;
+    private boolean loading  = true;
+    private String currentQuery;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        RecyclerView mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+        final LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(mLayoutManager);
         mAdapter = new Adapter();
-        recyclerView.setAdapter(mAdapter);
+        mRecyclerView.setAdapter(mAdapter);
 
         SearchView schView = (SearchView) findViewById(R.id.sch_view);
         schView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
+                //startActivity(new Intent(MainActivity.this, ProgressFormular.class));
                 Toast.makeText(MainActivity.this, "You are searching stuff", Toast.LENGTH_SHORT).show();
+                bookIndex = 0;
+                currentQuery = query;
                 fetchBooks(query);
                 return true;
             }
@@ -56,6 +64,26 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
+
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                visibileItemCount = mLayoutManager.getChildCount();
+                totalItemCount = mLayoutManager.getItemCount();
+                pastVisibleItems = mLayoutManager.findFirstVisibleItemPosition();
+
+                if (loading) {
+                    if (visibileItemCount + pastVisibleItems >= totalItemCount ){
+                        loading = false;
+                        bookIndex += pageSize;
+                        fetchBooks(currentQuery);
+                        loading = true;
+                    }
+                }
+            }
+        });
+
+
 
     }
 
@@ -73,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
             public void onResponse(Call<BookList> call, Response<BookList> response) {
                 if(response.isSuccessful()) {
                     List<BookModel> books = response.body().getItems();
-                     mAdapter.setData(books.subList(bookIndex, bookIndex + pageSize));
+                     mAdapter.setData(books.subList(0, pageSize));
                      mAdapter.notifyDataSetChanged();
                 }
                 else {

@@ -1,6 +1,10 @@
 <resources>
     <string name="app_name">Reading Assistant</string>
-
     <string name="search_button">Search</string>
     <string name="search_hint">Search books</string>
+    <string name="next_page">Next page</string>
+    <string name="page_num">Insert page number</string>
+    <string name="done_reading">Done reading</string>
+    <string name="currently_reading">Currently reading</string>
+    <string name="new_book">New book</string>
 </resources>
